@@ -16,7 +16,6 @@
     "react-leaflet": "^4.2.1",
     "react-router-dom": "7.2.0",
     "recharts": "^2.15.2",
-    "sass": "^1.85.0",
     "swiper": "^11.2.6",
     "web-vitals": "^5.0.3"
   },
@@ -52,6 +51,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.0.0",
     "gh-pages": "^6.3.0",
+    "sass": "^1.89.2",
     "vite": "^5.4.6",
     "vite-plugin-static-copy": "^1.0.1"
   }

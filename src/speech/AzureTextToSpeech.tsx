@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import * as SpeechSDK from "microsoft-cognitiveservices-speech-sdk";
+import "./AzureTextToSpeech.scss";
 
 const AzureTextToSpeech = () => {
-  const [text, setText] = useState("Hello, welcome to Azure TTS!");
+  const [text, setText] = useState(
+    "The name Anil has its roots in Sanskrit, a classical language of India, where it means air, wind. It is derived from the Sanskrit word अनिल (Anila), which directly refers to the god of the wind in Hindu mythology."
+  );
 
   const speakText = () => {
-          const tempTokenKey = import.meta.env.VITE_SPEECH_TOKEN_KEY;
-       const tempTokenRegion= import.meta.env.VITE_SPEECH_REGION_KEY;
-    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(tempTokenKey,tempTokenRegion );
-    // Choose a female voice (e.g., en-US-JennyNeural)
+    const key = import.meta.env.VITE_SPEECH_TOKEN_KEY;
+    const region = import.meta.env.VITE_SPEECH_REGION_KEY;
+
+    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(key, region);
     speechConfig.speechSynthesisVoiceName = "en-US-JennyNeural";
 
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
@@ -20,7 +23,7 @@ const AzureTextToSpeech = () => {
         if (result.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
           console.log("Speech synthesis succeeded.");
         } else {
-          console.error("Speech synthesis failed. Reason:", result.errorDetails);
+          console.error("Speech synthesis failed:", result.errorDetails);
         }
         synthesizer.close();
       },
@@ -32,15 +35,19 @@ const AzureTextToSpeech = () => {
   };
 
   return (
-    <div>
-      <h2>Azure Text to Speech (Female Voice)</h2>
+    <div className="tts-container">
+      <h2 className="tts-title">🗣️ Azure Text to Speech (Female Voice)</h2>
+
       <textarea
-        rows={4}
+        className="tts-input"
+        rows={5}
         value={text}
         onChange={e => setText(e.target.value)}
-        style={{ width: "100%" }}
       />
-      <button onClick={speakText}>Speak</button>
+
+      <button className="tts-button" onClick={speakText}>
+        🔊 Speak
+      </button>
     </div>
   );
 };

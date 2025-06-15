@@ -1,17 +1,16 @@
-// AzureSpeechToText.tsx
 import React, { useState } from "react";
 import * as SpeechSDK from "microsoft-cognitiveservices-speech-sdk";
+import "./AzureSpeechToText.scss";
 
 const AzureSpeechToText = () => {
   const [transcript, setTranscript] = useState("");
   const [isListening, setIsListening] = useState(false);
 
   const startSpeechRecognition = () => {
-      const tempTokenKey = import.meta.env.VITE_SPEECH_TOKEN_KEY;
-       const tempTokenRegion= import.meta.env.VITE_SPEECH_REGION_KEY;
-    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(tempTokenKey,tempTokenRegion
+    const key = import.meta.env.VITE_SPEECH_TOKEN_KEY;
+    const region = import.meta.env.VITE_SPEECH_REGION_KEY;
 
-    );
+    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(key, region);
     speechConfig.speechRecognitionLanguage = "en-US";
 
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
@@ -34,12 +33,18 @@ const AzureSpeechToText = () => {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h3>🎙️ Azure Speech-to-Text Demo</h3>
-      <button onClick={startSpeechRecognition} disabled={isListening}>
+    <div className="stt-container">
+      <h3 className="stt-title">🎙️ Azure Speech-to-Text Demo</h3>
+      <button
+        className={`stt-button ${isListening ? "stt-button--disabled" : ""}`}
+        onClick={startSpeechRecognition}
+        disabled={isListening}
+      >
         {isListening ? "Listening..." : "Start Recording"}
       </button>
-      <p><strong>Result:</strong> {transcript}</p>
+      <p className="stt-output">
+        <strong>Result:</strong> {transcript || <em>— nothing yet —</em>}
+      </p>
     </div>
   );
 };
